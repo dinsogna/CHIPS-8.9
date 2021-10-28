@@ -40,6 +40,20 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # if RUBY_VERSION>='2.6.0'
+  #   if Rails.version < '5'
+  #     class ActionController::TestResponse < ActionDispatch::TestResponse
+  #       def recycle!
+  #         # hack to avoid MonitorMixin double-initialize error:
+  #         @mon_mutex_owner_object_id = nil
+  #         @mon_mutex = nil
+  #         initialize
+  #       end
+  #     end
+  #   else
+  #     puts "Monkeypatch for ActionController::TestResponse no longer needed"
+  #   end
+  # end
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

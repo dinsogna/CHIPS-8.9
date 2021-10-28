@@ -7,6 +7,14 @@ class MoviesController < ApplicationController
   end
 
   def index
+    puts 'session'
+    puts session[:id]
+    puts 'params'
+    puts params[:id]
+    if session[:id]
+      flash[:notice] = "'#{Movie.find(session[:id]).title}' has no director info"
+      session[:id] = nil
+    end
     @movies = Movie.all
   end
 
@@ -38,10 +46,23 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  #new
+  def find_similar
+    puts "FIND SIMILAR!!!"
+    @movie = Movie.find params[:id]
+    puts "DIR: #{@movie.director}"
+    if @movie.director == ''
+      session[:id] = params[:id]
+      redirect_to movies_path
+    else
+      @movies = Movie.find_similar_movies(@movie.director)
+    end
+  end
+
   private
   # Making "internal" methods private is not required, but is a common practice.
   # This helps make clear which methods respond to requests, and which ones do not.
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :release_date)
+    params.require(:movie).permit(:title, :rating, :description, :director, :release_date)
   end
 end

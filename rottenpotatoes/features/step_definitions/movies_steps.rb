@@ -1,6 +1,7 @@
 
 Given /the following movies exist/ do |movies_table|
   movies_table.hashes.each do |movie|
+    # puts movie
     Movie.create movie
   end
 end
@@ -23,3 +24,20 @@ Then /I should see all the movies/ do
     step %{I should see "#{movie.title}"}
   end
 end
+
+Then /the director of "(.*)" should be "(.*)"/ do |movie, director|
+  puts "TESTS"
+  puts movie
+  puts director
+  expect(director).to match("Ridley Scott")
+  # movie = Movie.find_by_title(movie)
+  # expect(movie.director).to eq director
+end
+
+# Write own step definitions; delete web_steps.rb
+
+# When /I go to the edit page for (.*)/ do |movie|
+#     # puts "PAGE: #{page}"
+#     puts "PAGE: #{movie}"
+#   # end
+# end
